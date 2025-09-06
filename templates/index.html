@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel – Robô de Publicações</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <h1>📬 Painel de Publicações – OAB 20.686/CE</h1>
+    <p>Protótipo com DJEN, TRFs (DJE) e TRF5 (PJe).</p>
+  </header>
+  <section class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Fonte</th><th>Data</th><th>Processo</th><th>Ato</th><th>Resumo</th><th>Prazo</th><th>Status</th><th>Ação</th></tr>
+      </thead>
+      <tbody>
+        {% for p in pubs %}
+        <tr class="{{ 'ok' if p.status == 'Providenciado' else '' }}">
+          <td>{{ p.fonte }}</td>
+          <td>{{ p.data }}</td>
+          <td class="mono">{{ p.processo }}</td>
+          <td>{{ p.ato }}</td>
+          <td>{{ p.resumo }}</td>
+          <td>{{ p.prazo }}</td>
+          <td><span class="tag">{{ p.status }}</span></td>
+          <td><a class="btn" href="{{ url_for('toggle', pub_id=p.id) }}">
+            {% if p.status == "Providenciado" %}Desfazer{% else %}Providenciado{% endif %}
+          </a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  <footer><small>Feito para Dra. Nayara Siqueira • v3</small></footer>
+</body>
+</html>
